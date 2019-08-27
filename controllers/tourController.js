@@ -15,7 +15,14 @@ exports.checkID = (req, res, next, val) => {
 };
 
 exports.checkBody = (req, res, next) => {
-  debugger;
+  const { name, price } = req.body;
+  if (!name || !price) {
+    return res.status(400).json({
+      status: 'fail',
+      requestedAt: req.requestTime,
+      message: 'Missing name or price.'
+    });
+  }
   next();
 };
 
@@ -32,7 +39,7 @@ exports.getAllTours = (req, res) => {
 
 exports.getTour = (req, res) => {
   const id = parseInt(req.params.id);
-  const tour = tours.find(tour => id === tour.id);
+  const tour = tours.find(t => id === t.id);
 
   if (!tour) {
     return res.status(404).json({
