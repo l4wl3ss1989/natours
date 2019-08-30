@@ -4,7 +4,10 @@ const {
   createTour,
   getTour,
   updateTour,
-  deleteTour
+  deleteTour,
+  aliasTopTours,
+  getTourStats,
+  getMonthPlan
   // checkID,
   // checkBody
 } = require('./../controllers/tourController');
@@ -12,6 +15,10 @@ const {
 const router = express.Router();
 
 // router.param('id', checkID);
+
+router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
+router.route('/tour-stats').get(getTourStats);
+router.route('/monthly-plan/:year').get(getMonthPlan);
 
 router
   .route('/')
