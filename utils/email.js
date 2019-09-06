@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 
+// https://mailtrap.io
 const sendEmail = async options => {
   // Crete transporters
   const transporter = nodemailer.createTransport({

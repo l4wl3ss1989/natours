@@ -15,6 +15,18 @@ const signToken = id => {
 
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
+  const cookieOptions = {
+    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+    httpOnly: true
+  };
+
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
+  // WARN: Shoud not be necessary for api implementation ?¿?
+  res.cookie('jwt', token, cookieOptions);
+
+  // Remove password from the output
+  user.password = undefined;
 
   res.status(statusCode).send({
     status: 'success',
@@ -37,6 +49,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   // Check if user exeists && password corresct
   const user = await User.findOne({ email }).select('+password');
+
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
   }
@@ -129,7 +142,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
   // Get user from COLLECTION
-  const user = await User.findById(req.user.id).select('+password'); //WARNING: password is not implicitly included.
+  const user = await User.findById(req.user.id).select('+password'); //WARN: password is not implicitly included.
   // Check if posted password is correct
   if (!(await user.correctPassword(req.body.passwordCurrent, user.password)))
     return next(new AppError('Your current password is incorrect', 401));
