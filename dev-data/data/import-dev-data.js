@@ -7,7 +7,7 @@ dotenv.config({ path: '../../config/config.env' });
 
 const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
 
-const tours = require('./tours-simple.json');
+const tours = require('./tours.json');
 
 mongoose
   // .connect(process.env.DATABASE_LOCAL, {

@@ -1,4 +1,4 @@
-class APIFratures {
+class APIFeatures {
   constructor(query, queryString) {
     this.query = query;
     this.queryString = queryString;
@@ -46,4 +46,4 @@ class APIFratures {
     return this;
   }
 }
-module.exports = APIFratures;
+module.exports = APIFeatures;
