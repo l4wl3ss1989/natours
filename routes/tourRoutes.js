@@ -9,13 +9,12 @@ const {
   aliasTopTours,
   getTourStats,
   getMonthPlan
-  // checkID,
-  // checkBody
 } = require('./../controllers/tourController');
+const reviewRouter = require('../routes/reviewRoutes');
 
 const router = express.Router();
 
-// router.param('id', checkID);
+router.use('/:tourId/reviews', reviewRouter);
 
 router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
 router.route('/tour-stats').get(getTourStats);
@@ -25,7 +24,6 @@ router
   .route('/')
   .get(protect, getAllTours)
   .post(createTour);
-// .post(checkBody, createTour);
 
 router
   .route('/:id')

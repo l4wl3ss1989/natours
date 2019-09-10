@@ -12,6 +12,7 @@ const {
   signup,
   login,
   protect,
+  restrictTo,
   forgotPassword,
   resetPassword,
   updatePassword
