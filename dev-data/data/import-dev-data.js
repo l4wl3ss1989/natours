@@ -2,12 +2,16 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const Tour = require('../../models/tourModel');
+const User = require('../../models/userModel');
+const Review = require('../../models/reviewModel');
 
 dotenv.config({ path: '../../config/config.env' });
 
 const DB = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
 
 const tours = require('./tours.json');
+const users = require('./users.json');
+const reviews = require('./reviews.json');
 
 mongoose
   // .connect(process.env.DATABASE_LOCAL, {
@@ -28,6 +32,8 @@ mongoose
 const importData = async () => {
   try {
     await Tour.create(tours);
+    await User.create(users, { validateBeforeSave: false }); // WARN: skip validation.
+    await Review.create(reviews);
     console.log('Data succesfull loaded');
   } catch (err) {
     console.log(err);
@@ -39,6 +45,8 @@ const importData = async () => {
 const deleteData = async () => {
   try {
     await Tour.deleteMany();
+    await User.deleteMany();
+    await Review.deleteMany();
     console.log('Data succesfull deletet');
   } catch (err) {
     console.log(err);
