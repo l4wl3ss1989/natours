@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Tour = require('./tourModel');
 
 const reviewShema = new mongoose.Schema(
   {
@@ -62,12 +63,35 @@ reviewShema.statics.calcAvarageRatings = async function(tourId) {
       }
     }
   ]);
-  console.log(stats);
+
+  if (stats.length > 0)
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsQuantity: stats[0].nRating,
+      ratingsAverage: stats[0].avgRating
+    });
+  // Default review status
+  else
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsQuantity: 0,
+      ratingsAverage: 4.5
+    });
 };
+
+reviewShema.index({ tour: 1, user: 1 }, { unique: true });
 
 reviewShema.post('save', function() {
   // this points to current review.
   this.constructor.calcAvarageRatings(this.tour);
+});
+
+reviewShema.pre(/^findOneAnd/, async function(next) {
+  this.r = await this.findOne();
+  next();
+});
+
+reviewShema.post(/^findOneAnd/, async function() {
+  // await findOne does NOT work here because query has already executed.
+  await this.r.constructor.calcAvarageRatings(this.r.tour);
 });
 
 const Review = mongoose.model('Review', reviewShema);
