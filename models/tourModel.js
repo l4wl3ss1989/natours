@@ -180,11 +180,11 @@ tourSchema.post(/^find/, function(docs, next) {
 });
 
 // AGGEGATION MIDDLEWARE
-tourSchema.pre('aggregate', function(next) {
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-  console.log(this.pipeline());
-  next();
-});
+// tourSchema.pre('aggregate', function(next) {
+//   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+//   console.log(this.pipeline());
+//   next();
+// }); // WARN: Commented for $geoNear pipeLine
 
 const Tour = mongoose.model('Tour', tourSchema);
 module.exports = Tour;
