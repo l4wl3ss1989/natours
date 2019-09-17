@@ -30,7 +30,6 @@ const server = app.listen(port, () => {
 });
 
 // SAFTY NET ONLY
-
 process.on('unhandledRejection', err => {
   console.log('UNHANDLED REJECTION: 💥 Shutting down...');
   console.log(err.name, err.message);
