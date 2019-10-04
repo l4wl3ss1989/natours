@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 const morgan = require('morgan');
@@ -17,6 +18,10 @@ const app = express();
 
 // Cross-origin resource sharing
 app.use('*', cors());
+
+// Serving static files
+// app.use(express.static(`${__dirname}/public`));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // MIDDLEWARES
 
@@ -51,9 +56,6 @@ app.use(
     witheList: ['duration', 'ratingsAverage', 'ratingsQuantity', 'maxGroupSize', 'difficulty', 'price']
   })
 );
-
-// Serving static files
-app.use(express.static(`${__dirname}/public`));
 
 // Test middleware
 app.use((req, res, next) => {

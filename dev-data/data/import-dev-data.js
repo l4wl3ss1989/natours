@@ -34,7 +34,7 @@ const importData = async () => {
     await Tour.create(tours);
     await User.create(users, { validateBeforeSave: false }); // WARN: skip validation.
     await Review.create(reviews);
-    console.log('Data succesfull loaded');
+    console.log('Data succesfully loaded');
   } catch (err) {
     console.log(err);
   }
@@ -47,7 +47,7 @@ const deleteData = async () => {
     await Tour.deleteMany();
     await User.deleteMany();
     await Review.deleteMany();
-    console.log('Data succesfull deletet');
+    console.log('Data succesfully deletet');
   } catch (err) {
     console.log(err);
   }
